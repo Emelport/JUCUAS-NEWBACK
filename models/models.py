@@ -10,3 +10,8 @@ class User(Base):
     name = Column(String(255), index=True)  # Longitud especificada para VARCHAR
     email = Column(String(255), unique=True, index=True)
     password = Column(String(255)) # °°°°°|CAMBIO, SE AGREGO PASSWORD
+
+
+#Clase para la tabla de productos
+
+
