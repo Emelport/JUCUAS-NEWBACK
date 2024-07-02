@@ -8,3 +8,5 @@ bd = "bd_prueba"
 conn = f"mysql+mysqlconnector://{usuario}:{contraseña}@{servidor}/{bd}"
 
 SECRET_KEY = 'UAS-Jornada-C--#z9#&6g5n#)8&!@jz+4!-6z!5w-5^3q%q5h^&3!@&+1^#y=3!k'
+ALGORITHM = 'HS256'
+ACCESS_TOKEN_EXPIRE_MINUTES = 30

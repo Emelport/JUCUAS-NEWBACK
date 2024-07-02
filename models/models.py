@@ -1,12 +1,10 @@
-from sqlalchemy import Table,Column, Integer, String, Enum, Boolean, ForeignKey,DateTime,Date,Text
+from sqlalchemy import Table, Column, Integer, String, Enum, Boolean, ForeignKey, DateTime, Date, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
 from models.choices import *
-import secrets
 
-
-Base = declarative_base() # CLASE BASE DE LA QUE HEREDARÁN LOS MODELOS
+Base = declarative_base()
 
 # Definición de la tabla de relación
 type_activity_type_evidence = Table(
@@ -15,64 +13,24 @@ type_activity_type_evidence = Table(
     Column('type_activity_id', Integer, ForeignKey('type_activity.id')),  # Clave foránea a type_activity
     Column('type_evidence_id', Integer, ForeignKey('type_evidence.id'))  # Clave foránea a type_evidence
 )
+
+
 # MODELO DE USUARIO
 class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
-    username = Column(String(50), unique=True)  # Especifica una longitud, por ejemplo, 50 caracteres
+    username = Column(String(50), unique=True)
     email = Column(String(150), unique=True)
-    password = Column(String(50))
+    password = Column(String(60))
     first_name = Column(String(50))
     last_name = Column(String(50))
-    gender = Column(Enum('M', 'H', 'O', 'N'), default='N', nullable=True)
+    gender = Column(Enum(GenderEnum), default=GenderEnum.N, nullable=True)
     phone = Column(String(10), default="Asigna uno", nullable=True)
 
     def __repr__(self):
         return f"<User(username='{self.username}', email='{self.email}', phone='{self.phone}')>"
 
-class Tokens(Base):
-    __tablename__ = 'tokens'
-
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-    token = Column(String(6))
-    created_at = Column(DateTime, default=datetime.now)
-    expired = Column(Boolean, default=True)
-
-    user = relationship("User", back_populates="tokens")
-
-    def generate(self):
-        self.token = ''.join(str(secrets.randbelow(10)) for _ in range(6))
-        self.created_at = datetime.now()
-        self.expired = False
-
-    def is_expired(self, cooldown):
-        now = datetime.now()
-        time_difference = now - self.created_at
-        return time_difference.total_seconds() >= cooldown
-
-    def check_token(self, token):
-        if not self.is_expired(cooldown):
-            if self.token == token:
-                return "Valido"
-            else:
-                return "no valido"
-        else:
-            return "expirado"
-
-    def validate(self, token):
-        result = {'valid': False, 'reason': 'Token '}
-        reason = self.check_token(token)
-        result['reason'] += reason
-        result['valid'] = reason == 'Valido'
-        return result
-
-    def expire(self):
-        self.expired = True
-
-    def __repr__(self):
-        return f'Token de {self.user.first_name} {self.user.last_name}: {self.token}, {self.validate(self.token)["reason"]}'
 
 # MODELO DE UNIVERSIDADES
 class University(Base):
@@ -94,6 +52,7 @@ class University(Base):
     def __repr__(self):
         return f"<University(name='{self.name}')>"
 
+
 # MODELO DE UNIDADES ORGANIZACIONALES
 class OrganizationalUnit(Base):
     __tablename__ = 'organizational_unit'
@@ -112,7 +71,8 @@ class OrganizationalUnit(Base):
 
     def __repr__(self):
         return f"<OrganizationalUnit(name='{self.name}')>"
-      
+
+
 # MODELO DE REVISORES
 class Reviewer(Base):
     __tablename__ = 'reviewer'
@@ -138,7 +98,8 @@ class Reviewer(Base):
 
     def __repr__(self):
         return f"<Reviewer(first_name='{self.first_name}', last_name='{self.last_name}')>"
-    
+
+
 # MODELO DE REPRESENTANTES
 class Representative(Base):
     __tablename__ = 'representative'
@@ -160,13 +121,14 @@ class Representative(Base):
     def __repr__(self):
         return f"<Representative(first_name='{self.first_name}', last_name='{self.last_name}')>"
 
+
 # MODELO DE PRESENTADORES
 class Presenter(Base):
     __tablename__ = 'presenter'
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'), nullable=True)
-    user = relationship("User", backref="presenter_user")
+    user = relationship("User", backref="presenter_user", primaryjoin="Presenter.user_id == User.id")
     first_name = Column(String(50))
     last_name = Column(String(50))
     user_name = Column(String(50))
@@ -186,9 +148,13 @@ class Presenter(Base):
     created_by = relationship("User", foreign_keys=[created_by_id])
     is_active = Column(Boolean, default=True)
     status = Column(Boolean, default=True)
-
+    # Relación con Activity como presentador principal
+    activity_presenter = relationship("Activity", back_populates="presenter")
+    # Relación con Activity como co-presentador
+    co_presenter_activities = relationship("Activity", secondary='activity_co_presenter',back_populates="co_presenters")
     def __repr__(self):
         return f"<Presenter(first_name='{self.first_name}', last_name='{self.last_name}')>"
+
 
 # MODELO DE FECHAS LÍMITE
 class Deadline(Base):
@@ -210,6 +176,7 @@ class Deadline(Base):
     def __repr__(self):
         return f"<Deadline(name_edition='{self.name_edition}', date_edition='{self.date_edition}')>"
 
+
 # MODELO DE RESPONSABLE DE ACTIVIDAD
 class ActivityManager(Base):
     __tablename__ = 'activity_manager'
@@ -229,6 +196,7 @@ class ActivityManager(Base):
     def __repr__(self):
         return f"<ActivityManager(first_name='{self.first_name}', last_name='{self.last_name}')>"
 
+
 # MODELO DE TIPO DE EVIDENCIA
 class TypeEvidence(Base):
     __tablename__ = 'type_evidence'
@@ -243,6 +211,7 @@ class TypeEvidence(Base):
     def __repr__(self):
         return f"<TypeEvidence(name='{self.name}', type='{self.type}')>"
 
+
 # MODELO DE TIPO DE ACTIVIDAD
 class TypeActivity(Base):
     __tablename__ = 'type_activity'
@@ -253,10 +222,11 @@ class TypeActivity(Base):
     max_copresenter = Column(String(100))
     is_active = Column(Boolean, default=True)
     status = Column(Boolean, default=True)
-    type_evidence = relationship("TypeEvidence", secondary='type_activity_type_evidence')
+    type_evidence = relationship("TypeEvidence", secondary=type_activity_type_evidence)
 
     def __repr__(self):
         return f"<TypeActivity(name='{self.name}', title='{self.title}')>"
+
 
 # MODELO DE ACTIVIDAD
 class Activity(Base):
@@ -274,8 +244,8 @@ class Activity(Base):
     type_of_public = Column(Enum('INT', 'EXT'))
     area_knowledge = Column(Enum('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'))
     presenter_id = Column(Integer, ForeignKey('presenter.id'))
-    presenter = relationship("Presenter", back_populates="activity_presenter", foreign_keys=[presenter_id])
-    co_presenter = relationship("Presenter", secondary='activity_co_presenter', back_populates="co_presenter_activities")
+    presenter = relationship("Presenter", back_populates="activity_presenter")
+    co_presenters = relationship("Presenter", secondary='activity_co_presenter',back_populates="co_presenter_activities")
     type_id = Column(Integer, ForeignKey('type_activity.id'))
     type = relationship("TypeActivity")
     created_by_id = Column(Integer, ForeignKey('user.id'))
@@ -284,9 +254,12 @@ class Activity(Base):
     activity_status = Column(Enum('DUE', 'INC', 'REJECT', 'OK'))
     is_active = Column(Boolean, default=True)
     status = Column(Boolean, default=True)
+    related_evidences = relationship('Evidence', back_populates='activity')
+
 
     def __repr__(self):
         return f"<Activity(name='{self.name}', date_activity='{self.date_activity}')>"
+
 
 # TABLA DE RELACIÓN PARA ACTIVIDAD Y PRESENTADOR
 class ActivityCoPresenter(Base):
@@ -294,6 +267,7 @@ class ActivityCoPresenter(Base):
 
     activity_id = Column(Integer, ForeignKey('activity.id'), primary_key=True)
     co_presenter_id = Column(Integer, ForeignKey('presenter.id'), primary_key=True)
+
 
 # MODELO DE EVIDENCIA
 class Evidence(Base):
@@ -315,4 +289,3 @@ class Evidence(Base):
 
     def __repr__(self):
         return f"<Evidence(name='{self.name}', evidence_status='{self.evidence_status}')>"
-

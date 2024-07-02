@@ -1,6 +1,7 @@
 from pydantic import BaseModel
-from datetime import datetime, timedelta
-import secrets
+from datetime import datetime
+from settings import SECRET_KEY
+
 
 class TokenBase(BaseModel):
     user_id: int
@@ -8,26 +9,34 @@ class TokenBase(BaseModel):
     created_at: datetime
     expired: bool
 
+
 class TokenCreate(TokenBase):
     pass
+
+
+class TokenData(BaseModel):
+    username: str
+
+    class Config:
+        from_attributes  = True
+
 
 class Token(TokenBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes  = True
 
-def generate_token():
-    return ''.join(str(secrets.randbelow(10)) for _ in range(6))
 
 def is_expired(cooldown, created_at):
     now = datetime.now()
     time_difference = now - created_at
     return time_difference.total_seconds() >= cooldown
 
-def check_token(token, cooldown, created_at):
+
+def check_token(input_token, cooldown, created_at):
     if not is_expired(cooldown, created_at):
-        if token == token:
+        if input_token == SECRET_KEY:
             return "Valid"
         else:
             return "Invalid"

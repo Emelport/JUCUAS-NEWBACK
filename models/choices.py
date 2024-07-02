@@ -1,23 +1,38 @@
-from enum import Enum
+from sqlalchemy.ext.declarative import declarative_base
+from enum import Enum as PyEnum
 
-class PositionInstitution(str, Enum):
+Base = declarative_base()
+
+
+# Define your enumerations
+class GenderEnum(PyEnum):
+    M = 'M'
+    H = 'H'
+    O = 'O'
+    N = 'N'
+
+
+class PositionInstitution(str, PyEnum):
     ESTUDIANTE = 'Estudiante'
     MAESTRO = 'Maestro'
     DIRECTOR = 'Director'
     PERSONAL_CONFIANZA = 'Personal de confianza'
     EXTERNO = 'Externo'
 
-class Gender(str, Enum):
+
+class Gender(str, PyEnum):
     MUJER = 'Mujer'
     HOMBRE = 'Hombre'
     OTRO = 'Otro'
 
-class AcademicDegree(str, Enum):
+
+class AcademicDegree(str, PyEnum):
     LICENCIATURA = 'Licenciatura'
     MAESTRIA = 'Maestría'
     DOCTORADO = 'Doctorado'
 
-class AreaKnowledge(str, Enum):
+
+class AreaKnowledge(str, PyEnum):
     I = 'I. Físico-Matemáticas y Ciencias de la Tierra'
     II = 'II. Biología y Química'
     III = 'III. Medicina y Ciencias de la Salud'
@@ -28,7 +43,8 @@ class AreaKnowledge(str, Enum):
     VIII = 'VIII. Ingenierías y Desarrollo Tecnológico'
     IX = 'IX. Investigación Multidisciplinaria'
 
-class EducationalLevel(str, Enum):
+
+class EducationalLevel(str, PyEnum):
     PCO = 'Público en general'
     PREESC = 'Preescolar'
     PRIM = 'Primaria'
@@ -36,33 +52,49 @@ class EducationalLevel(str, Enum):
     MDSUP = 'Media superior'
     SUP = 'Superior'
 
-class TypeOfPublic(str, Enum):
+
+class TypeOfPublic(str, PyEnum):
     INT = 'Interno'
     EXT = 'Externo'
 
-class EvidenceStatus(str, Enum):
+
+class EvidenceStatus(str, PyEnum):
     SEND = 'Subido'
     DUE = 'Pendiente'
     INC = 'Incompleto'
     REJECT = 'Rechazado'
     OK = 'Aprobado'
 
-class ActivityStatus(str, Enum):
+
+class ActivityStatus(str, PyEnum):
     DUE = 'Pendiente'
     INC = 'Incompleto'
     REJECT = 'Rechazado'
     OK = 'Aprobado'
 
-class UniversityRegion(str, Enum):
+
+class UniversityRegion(str, PyEnum):
     N = 'Norte'
     CN = 'Centro-Norte'
     C = 'Centro'
     S = 'Sur'
 
-class TypeEvidence(str, Enum):
+
+class TypeEvidence(str, PyEnum):
     PDF = 'PDF'
     URL = 'URL'
 
-class Modality(str, Enum):
+
+class Modality(str, PyEnum):
     P = 'Presencial'
     V = 'Virtual'
+
+#
+# # Use the enumerations in your models
+# class User(Base):
+#     __tablename__ = 'users'
+#
+#     id = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     gender = Column(Enum(GenderEnum), default=GenderEnum.N, nullable=True)
+#     position = Column(Enum(PositionInstitution), nullable=False)
