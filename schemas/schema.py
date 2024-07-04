@@ -1,5 +1,3 @@
-from models.schemas.tokens import *
-from models.schemas.users import *
 # from models.schemas.universities import *
 # from models.schemas.organizationalUnit import *
 # from models.schemas.activityManager import *

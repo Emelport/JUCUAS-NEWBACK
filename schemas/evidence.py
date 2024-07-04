@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
-from models.schemas.users import User  # Asegúrate de importar el modelo Pydantic de User si lo tienes definido
+from schemas.users import User  # Asegúrate de importar el modelo Pydantic de User si lo tienes definido
 
 # Modelo Pydantic para Evidence
 class Evidence(BaseModel):

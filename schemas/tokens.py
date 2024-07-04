@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from settings import SECRET_KEY
+from core.config import SECRET_KEY
 
 
 class TokenBase(BaseModel):

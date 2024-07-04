@@ -1,8 +1,8 @@
-from pydantic import BaseModel, conlist
+from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 from models.choices import Modality, EducationalLevel, TypeOfPublic, AreaKnowledge, ActivityStatus
-from models.schemas import presenter, typeActivities  # Asegúrate de importar los modelos Pydantic necesarios
+from schemas import presenter, typeActivities  # Asegúrate de importar los modelos Pydantic necesarios
 
 # Modelo Pydantic para la actividad
 class ActivityBase(BaseModel):
