@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes.user import user
+from api.routes.user import router as user_router  # Importa el enrutador correctamente
 from db.base import Base  # Asegúrate de importar esto
 from db.session import engine  # Importa el engine
 
@@ -23,13 +23,13 @@ app.add_middleware(
 )
 
 # Incluir routers
-app.include_router(user.router, prefix="/users", tags=["users"])
+app.include_router(user_router, prefix="/users", tags=["Users"])
 
 # Función para crear las tablas en la base de datos al inicio
-# @app.on_event("startup")
-# def on_startup():
-#     # Crear las tablas en la base de datos
-#     Base.metadata.create_all(bind=engine)
+@app.on_event("startup")
+def on_startup():
+    # Crear las tablas en la base de datos
+    Base.metadata.create_all(bind=engine)
 
 # Ruta de prueba para verificar que la aplicación está funcionando
 @app.get("/")

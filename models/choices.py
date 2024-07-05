@@ -1,7 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from enum import Enum as PyEnum
-
-Base = declarative_base()
+from db.base import Base
 
 
 # Define your enumerations
@@ -88,13 +87,3 @@ class TypeEvidence(str, PyEnum):
 class Modality(str, PyEnum):
     P = 'Presencial'
     V = 'Virtual'
-
-#
-# # Use the enumerations in your models
-# class User(Base):
-#     __tablename__ = 'users'
-#
-#     id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     gender = Column(Enum(GenderEnum), default=GenderEnum.N, nullable=True)
-#     position = Column(Enum(PositionInstitution), nullable=False)
