@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
 from models.choices import *
+from db.base import Base
 
 
 # MODELO DE FECHAS LÍMITE

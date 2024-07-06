@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column, Integer, String, Enum, Boolean, ForeignKey, DateTime, Date, Text
-from db.base import Base
 from models.choices import *
+from db.base import Base
 
 
 class User(Base):

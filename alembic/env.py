@@ -5,6 +5,9 @@ from alembic import context
 from db.base import Base
 
 
+Base.metadata.load()
+
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

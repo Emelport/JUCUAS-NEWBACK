@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, Enum, Boolean, ForeignKey, DateTime, Date, Text
-from db.base import Base
 from models.choices import *
 from sqlalchemy.orm import relationship
+from db.base import Base
 
 # MODELO DE REVISORES
 class Reviewer(Base):

@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from datetime import datetime, timedelta
 from models.choices import *  # Base esta importada aqui
+from db.base import Base
 
 
 # MODELO DE EVIDENCIA

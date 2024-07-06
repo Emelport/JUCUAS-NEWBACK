@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from models.choices import EducationalLevel as UniversityType, UniversityRegion as Region  # Importa los Enums necesarios desde models.choices si es necesario
+from models.choices import EducationalLevel as UniversityType, UniversityRegion as Region  # Asegúrate de importar los Enums necesarios desde models.choices si es necesario
 
 # Modelo Pydantic para la creación de universidades
 class UniversityCreate(BaseModel):
@@ -29,8 +29,17 @@ class UniversityUpdate(BaseModel):
     status: Optional[bool]
 
 # Modelo Pydantic para la lectura de universidades (con ID)
-class University(UniversityCreate):
+class University(BaseModel):
     id: int
+    name: str
+    acronym: str
+    key_code: str
+    type: Optional[UniversityType]
+    region: Optional[Region]
+    municipality: str
+    locality: str
+    email: Optional[str]
+    phone: Optional[str]
     is_active: bool
     status: bool
 
