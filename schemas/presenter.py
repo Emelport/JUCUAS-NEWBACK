@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
-# Modelo Pydantic para la creación de presentadores
 class PresenterCreate(BaseModel):
     user_id: Optional[int]
     first_name: str
@@ -22,7 +21,6 @@ class PresenterCreate(BaseModel):
     is_active: Optional[bool]
     status: Optional[bool]
 
-# Modelo Pydantic para la actualización de presentadores
 class PresenterUpdate(BaseModel):
     user_id: Optional[int]
     first_name: Optional[str]
@@ -42,7 +40,19 @@ class PresenterUpdate(BaseModel):
     is_active: Optional[bool]
     status: Optional[bool]
 
-    # Modelo Pydantic para la lectura de presentadores (con ID y relaciones resueltas)
+class PresenterUpdateGender(BaseModel):
+    gender: str
+
+class PresenterUpdateName(BaseModel):
+    first_name: str
+    last_name: str
+
+class PresenterUpdatePhone(BaseModel):
+    phone: str
+
+class PresenterUpdateEmail(BaseModel):
+    email: str
+
 class Presenter(BaseModel):
     id: int
     user_id: Optional[int]
@@ -66,4 +76,3 @@ class Presenter(BaseModel):
     class Config:
         orm_mode = True
         arbitrary_types_allowed = True
-

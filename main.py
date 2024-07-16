@@ -1,9 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes.user import router as user_router  # Asegúrate de importar el enrutador correctamente
-from api.routes.universities import router as university_router  # Asegúrate de importar el enrutador correctamente
 from db.base import Base  # Asegúrate de importar esto
 from db.session import engine  # Asegúrate de importar el engine
+
+from api.routes.user import router as user_router  
+from api.routes.universities import router as university_router  
+from api.routes.organizationalUnit import router as organizationalUnit_router  
+from api.routes.reviewers import router as reviewers_router  
+from api.routes.representative import router as representative_router  
+from api.routes.presenter import router as presenter_router
+from api.routes.deadline import router as deadline_router
+
 
 app = FastAPI()
 
@@ -26,7 +33,12 @@ app.add_middleware(
 # Incluir routers
 #NOTA: A como se vayan agregando las rutas se van creando las tablas en la vase de datos
 app.include_router(user_router, prefix="/users", tags=["Users"])
-app.include_router(university_router, prefix="/universities", tags=["Universities"])
+app.include_router(university_router, prefix="/university", tags=["University"])
+app.include_router(organizationalUnit_router, prefix="/organizational-unit", tags=["OrganizationalUnit"])
+app.include_router(reviewers_router, prefix="/reviewer", tags=["Reviewers"])
+app.include_router(representative_router, prefix="/representative", tags=["Representative"])
+app.include_router(presenter_router, prefix="/presenter", tags=["Presenter"])
+app.include_router(deadline_router, prefix="/deadline", tags=["Deadline"])
 
 # Función para crear las tablas en la base de datos al inicio
 @app.on_event("startup")

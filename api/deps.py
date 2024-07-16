@@ -6,6 +6,8 @@ from db.session import get_db
 from models.users import User as SQLUser
 from schemas.users import TokenData
 from core.config import *
+from typing import List
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -42,3 +44,20 @@ def oauth2_scheme_with_validation(token: str = Depends(oauth2_scheme)) -> str:
     except JWTError:
         raise credentials_exception
     return token
+
+
+def get_current_active_user(current_user: SQLUser = Depends(get_current_user)):
+    if not current_user.is_active:
+        raise HTTPException(status_code=400, detail="Inactive user")
+    return current_user
+
+
+def group_required(groups: List[str]):
+    def user_group_dependency(current_user: SQLUser = Depends(get_current_user)):
+        if not any(group in current_user.groups for group in groups):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Operation not permitted. User does not have required group."
+            )
+        return current_user
+    return user_group_dependency
