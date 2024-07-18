@@ -4,7 +4,7 @@ from typing import List
 
 from db.session import get_db
 from schemas.activityManager import ActivityManagerCreate, ActivityManager, ActivityManagerUpdate
-from models.activityManager  ActivityManager as DBActivityManager
+from models.activityManager import ActivityManager as DBActivityManager
 from api.deps import get_current_user, group_required
 
 router = APIRouter()
