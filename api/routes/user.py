@@ -39,7 +39,7 @@ async def login_for_access_token(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/users/", response_model=UserCreate)
+@router.post("/", response_model=UserCreate)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(SQLUser).filter(SQLUser.email == user.email).first()
     if db_user:
@@ -56,11 +56,11 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(db_user)
     return user
 
-@router.get("/users/", response_model=List[User])
+@router.get("/", response_model=List[User])
 def read_users(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     users = db.query(SQLUser).offset(skip).limit(limit).all()
     return users
 
-@router.get("/users/me", response_model=User)
+@router.get("/me", response_model=User)
 async def read_users_me(current_user: User = Depends(get_current_user)):
     return current_user

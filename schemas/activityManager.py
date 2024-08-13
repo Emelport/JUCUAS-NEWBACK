@@ -18,3 +18,13 @@ class ActivityManager(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ActivityManagerCreate(BaseModel):
+    user_id: Optional[int]
+    first_name: str
+    last_name: str
+
+class ActivityManagerUpdate(BaseModel):
+    user_id: Optional[int]
+    first_name: str
+    last_name: str

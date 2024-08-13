@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 from models.choices import Modality, EducationalLevel, TypeOfPublic, AreaKnowledge, ActivityStatus
-from schemas import presenter, typeActivities  # Asegúrate de importar los modelos Pydantic necesarios
+from schemas.presenter import Presenter  # Asegúrate de que este modelo Pydantic esté definido correctamente
+from schemas.typeActivities import TypeActivity  # Asegúrate de que este modelo Pydantic esté definido correctamente
 
 # Modelo Pydantic para la actividad
 class ActivityBase(BaseModel):
@@ -26,7 +27,7 @@ class ActivityBase(BaseModel):
     status: bool = True
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Modelo Pydantic para la creación de actividad
 class ActivityCreate(ActivityBase):
@@ -39,9 +40,10 @@ class ActivityUpdate(ActivityBase):
 # Modelo Pydantic para la respuesta de actividad
 class Activity(ActivityBase):
     id: int
-    presenter: Optional[presenter]
-    co_presenters: Optional[List[presenter]] = []
-    type: Optional[typeActivities]
+    presenter: Optional[Presenter]
+    co_presenters: Optional[List[Presenter]] = []
+    type: Optional[TypeActivity]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+        arbitrary_types_allowed = True
