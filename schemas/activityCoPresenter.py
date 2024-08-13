@@ -6,4 +6,4 @@ class ActivityCoPresenter(BaseModel):
     co_presenter_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

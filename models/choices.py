@@ -1,13 +1,11 @@
+# models/choices.py
 from enum import Enum as PyEnum
 
-
-# Define your enumerations
 class GenderEnum(PyEnum):
     M = 'M'
     H = 'H'
     O = 'O'
     N = 'N'
-
 
 class PositionInstitution(str, PyEnum):
     ESTUDIANTE = 'Estudiante'
@@ -16,18 +14,15 @@ class PositionInstitution(str, PyEnum):
     PERSONAL_CONFIANZA = 'Personal de confianza'
     EXTERNO = 'Externo'
 
-
 class Gender(str, PyEnum):
     MUJER = 'Mujer'
     HOMBRE = 'Hombre'
     OTRO = 'Otro'
 
-
 class AcademicDegree(str, PyEnum):
     LICENCIATURA = 'Licenciatura'
     MAESTRIA = 'Maestría'
     DOCTORADO = 'Doctorado'
-
 
 class AreaKnowledge(str, PyEnum):
     I = 'I. Físico-Matemáticas y Ciencias de la Tierra'
@@ -40,7 +35,6 @@ class AreaKnowledge(str, PyEnum):
     VIII = 'VIII. Ingenierías y Desarrollo Tecnológico'
     IX = 'IX. Investigación Multidisciplinaria'
 
-
 class EducationalLevel(str, PyEnum):
     PCO = 'Público en general'
     PREESC = 'Preescolar'
@@ -49,11 +43,9 @@ class EducationalLevel(str, PyEnum):
     MDSUP = 'Media superior'
     SUP = 'Superior'
 
-
 class TypeOfPublic(str, PyEnum):
     INT = 'Interno'
     EXT = 'Externo'
-
 
 class EvidenceStatus(str, PyEnum):
     SEND = 'Subido'
@@ -62,13 +54,11 @@ class EvidenceStatus(str, PyEnum):
     REJECT = 'Rechazado'
     OK = 'Aprobado'
 
-
 class ActivityStatus(str, PyEnum):
     DUE = 'Pendiente'
     INC = 'Incompleto'
     REJECT = 'Rechazado'
     OK = 'Aprobado'
-
 
 class UniversityRegion(str, PyEnum):
     N = 'Norte'
@@ -76,11 +66,9 @@ class UniversityRegion(str, PyEnum):
     C = 'Centro'
     S = 'Sur'
 
-
 class TypeEvidence(str, PyEnum):
     PDF = 'PDF'
     URL = 'URL'
-
 
 class Modality(str, PyEnum):
     P = 'Presencial'

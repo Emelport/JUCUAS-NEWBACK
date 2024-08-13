@@ -11,7 +11,7 @@ class TypeEvidenceBase(BaseModel):
     is_optional: bool = False
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Modelo Pydantic para la creación del tipo de evidencia
 class TypeEvidenceCreate(TypeEvidenceBase):
@@ -26,4 +26,4 @@ class TypeEvidence(TypeEvidenceBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

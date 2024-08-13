@@ -1,0 +1,42 @@
+<!-- templates/register_client.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Client</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <h1>Register a New Application</h1>
+    {% if error %}
+        <p style="color: red;">Error: {{ error }}</p>
+    {% endif %}
+    {% if client_id and client_secret %}
+        <p>Client ID: {{ client_id }}</p>
+        <p>Client Secret: {{ client_secret }}</p>
+    {% endif %}
+    <form action="/clients/register_client/" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="client_type">Client Type:</label>
+        <select id="client_type" name="client_type" required>
+            <option value="Confidential">Confidential</option>
+            <option value="Public">Public</option>
+        </select><br><br>
+        <label for="authorization_grant_type">Authorization Grant Type:</label>
+        <select id="authorization_grant_type" name="authorization_grant_type" required>
+            <option value="Resource owner password-based">Resource Owner Password-based</option>
+            <option value="Authorization code">Authorization Code</option>
+        </select><br><br>
+        <label for="redirect_uris">Redirect URIs:</label>
+        <input type="text" id="redirect_uris" name="redirect_uris"><br><br>
+        <label for="algorithm">Algorithm:</label>
+        <select id="algorithm" name="algorithm" required>
+            <option value="No OIDC support">No OIDC Support</option>
+            <option value="HS256">HS256</option>
+        </select><br><br>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

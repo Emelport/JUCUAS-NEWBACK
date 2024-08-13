@@ -22,3 +22,17 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
+
+def is_expired(exp: datetime) -> bool:
+    return datetime.utcnow() > exp
+
+def verify_token(token: str):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        exp = datetime.fromtimestamp(payload.get("exp"))
+        if is_expired(exp):
+            return "Expired"
+        return "Valid"
+    except JWTError:
+        return "Invalid"

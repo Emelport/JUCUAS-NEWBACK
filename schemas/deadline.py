@@ -18,7 +18,7 @@ class Deadline(BaseModel):
     file_name: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Modelo Pydantic para crear un nuevo Deadline
 class DeadlineCreate(BaseModel):

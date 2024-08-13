@@ -17,7 +17,7 @@ class ActivityManager(BaseModel):
     status: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ActivityManagerCreate(BaseModel):
     user_id: Optional[int]
@@ -27,4 +27,4 @@ class ActivityManagerCreate(BaseModel):
 class ActivityManagerUpdate(BaseModel):
     user_id: Optional[int]
     first_name: str
-    last_name: str
+    last_name

@@ -1,11 +1,10 @@
-from sqlalchemy import Table, Column, Integer, String, Enum, Boolean, ForeignKey, DateTime, Date, Text
-from sqlalchemy.ext.declarative import declarative_base
+# models/presenter.py
+from sqlalchemy import Column, Integer, String, Enum, Boolean, ForeignKey, DateTime, Date
 from sqlalchemy.orm import relationship
-from datetime import datetime, timedelta
-from models.choices import *
 from db.base import Base
+from models.associations import activity_co_presenter  # Importa la tabla de asociación
+from models.choices import *
 
-# MODELO DE PRESENTADORES
 class Presenter(Base):
     __tablename__ = 'presenter'
 
@@ -31,10 +30,16 @@ class Presenter(Base):
     created_by = relationship("User", foreign_keys=[created_by_id])
     is_active = Column(Boolean, default=True)
     status = Column(Boolean, default=True)
+
     # Relación con Activity como presentador principal
     activity_presenter = relationship("Activity", back_populates="presenter")
+
     # Relación con Activity como co-presentador
-    co_presenter_activities = relationship("Activity", secondary='activity_co_presenter',back_populates="co_presenters")
+    co_presenter_activities = relationship(
+        "Activity",
+        secondary=activity_co_presenter,
+        back_populates="co_presenters"
+    )
+
     def __repr__(self):
         return f"<Presenter(first_name='{self.first_name}', last_name='{self.last_name}')>"
-

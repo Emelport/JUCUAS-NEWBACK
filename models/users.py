@@ -17,11 +17,11 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(50), unique=True)
     email = Column(String(150), unique=True)
-    password = Column(String(60))
+    password = Column(String(255))
     first_name = Column(String(50))
     last_name = Column(String(50))
     gender = Column(Enum(GenderEnum), default=GenderEnum.N, nullable=True)
-    phone = Column(String(10), default="Asigna uno", nullable=True)
+    phone = Column(String(10), default="Asigna uno ", nullable=True)
 
     groups = relationship(
         'Group',
@@ -38,6 +38,12 @@ class Group(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)
+
+    users = relationship(
+        'User',
+        secondary=user_group_association,
+        back_populates='groups'
+    )
 
     def __repr__(self):
         return f"<Group(name='{self.name}')>"

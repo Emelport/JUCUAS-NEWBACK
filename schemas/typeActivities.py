@@ -12,7 +12,7 @@ class TypeActivityBase(BaseModel):
     type_evidence_ids: Optional[List[int]] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Modelo Pydantic para la creación del tipo de actividad
 class TypeActivityCreate(TypeActivityBase):
@@ -28,4 +28,4 @@ class TypeActivity(TypeActivityBase):
     type_evidences: Optional[List[TypeEvidence]] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
