@@ -22,6 +22,8 @@ class User(Base):
     last_name = Column(String(50))
     gender = Column(Enum(GenderEnum), default=GenderEnum.N, nullable=True)
     phone = Column(String(10), default="Asigna uno ", nullable=True)
+    is_active = Column(Boolean, default=True)
+    is_superuser = Column(Boolean, default=False)
 
     groups = relationship(
         'Group',

@@ -10,7 +10,6 @@ from schemas.client import ClientCreate
 templates = Jinja2Templates(directory="templates")
 
 router = APIRouter()
-
 @router.post("/register_client/", response_model=ClientCreate)
 def register_client(
     name: str = Form(...),
@@ -46,6 +45,7 @@ def register_client(
     db.commit()
     db.refresh(db_client)
     return db_client
+
 
 @router.post("/register_client_web/", response_class=HTMLResponse)
 async def register_client_web(

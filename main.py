@@ -28,6 +28,14 @@ from api.routes.client import router as client_router
 
 # Crear la aplicación
 app = FastAPI()
+
+# @app.middleware("http")
+# async def log_requests(request: Request, call_next):
+#     # Registrar la solicitud
+#     print(f"Request: {request.method} {request.url}")
+#     response = await call_next(request)
+#     return response
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -39,7 +47,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Incluir routers
 #NOTA: A como se vayan agregando las rutas se van creando las tablas en la base de datos
-app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(university_router, prefix="/university", tags=["University"])
 app.include_router(organizationalUnit_router, prefix="/organizational-unit", tags=["OrganizationalUnit"])
 app.include_router(reviewers_router, prefix="/reviewer", tags=["Reviewers"])
@@ -51,6 +58,8 @@ app.include_router(typeActivities_router, prefix="/typeActivity", tags=["TypeAct
 app.include_router(typeEvidence_router, prefix="/typeEvidences", tags=["TypeEvidences"])
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(client_router, prefix="/clients", tags=["oAuth Clients"])
+app.include_router(user_router, prefix="/users", tags=["Users"])
+
 
 
 templates = Jinja2Templates(directory="templates")
