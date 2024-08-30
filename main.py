@@ -43,6 +43,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Incluir routers
@@ -80,4 +81,4 @@ async def get_register_form(request: Request):
 # Ejecutar la aplicación usando Uvicorn si se ejecuta directamente
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8011)
