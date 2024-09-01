@@ -49,7 +49,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Incluir routers
 #NOTA: A como se vayan agregando las rutas se van creando las tablas en la base de datos
 app.include_router(university_router, prefix="/university", tags=["University"])
-app.include_router(organizationalUnit_router, prefix="/organizational-unit", tags=["OrganizationalUnit"])
+app.include_router(organizationalUnit_router, prefix="/universities/organizational-unit", tags=["OrganizationalUnit"])
 app.include_router(reviewers_router, prefix="/reviewer", tags=["Reviewers"])
 app.include_router(representative_router, prefix="/representative", tags=["Representative"])
 app.include_router(presenter_router, prefix="/presenter", tags=["Presenter"])

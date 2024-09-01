@@ -16,7 +16,7 @@ def list_organizational_units(skip: int = 0, limit: int = 100, db: Session = Dep
     units = db.query(DBOrganizationalUnit).filter(DBOrganizationalUnit.status == True).offset(skip).limit(limit).all()
     return units
 
-@router.post("/create/", response_model=OrganizationalUnit)
+@router.post("/create", response_model=OrganizationalUnit)
 def create_organizational_unit(unit: OrganizationalUnitCreate, db: Session = Depends(get_db)):
     db_unit = DBOrganizationalUnit(**unit.dict())
     db.add(db_unit)
